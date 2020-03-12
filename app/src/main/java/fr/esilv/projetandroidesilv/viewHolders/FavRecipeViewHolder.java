@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import fr.esilv.projetandroidesilv.R;
 
-public class RecipeViewHolder  extends  RecyclerView.ViewHolder{
+public class FavRecipeViewHolder  extends  RecyclerView.ViewHolder{
 
     public TextView recipeName;
     public ImageView imageView;
@@ -17,7 +17,7 @@ public class RecipeViewHolder  extends  RecyclerView.ViewHolder{
     public TextView starNumber;
     public Boolean isFavorite = false;
 
-    public RecipeViewHolder(@NonNull View itemView) {
+    public FavRecipeViewHolder(@NonNull View itemView) {
         super(itemView);
         recipeName = (TextView) itemView.findViewById(R.id.text_view_recipe_name);
         yield = (TextView) itemView.findViewById(R.id.yield);

@@ -7,13 +7,15 @@ public class Recipe {
     private String imageUrl;
     private String desc;
     private String yield;
+    private Boolean isFavorite = false;
 
-    public Recipe(String id, String name, String imageUrl, String desc, String yield){
+    public Recipe(String id, String name, String imageUrl, String desc, String yield, Boolean isLoved){
         this.uri = id;
         this.label = name;
         this.imageUrl = imageUrl;
         this.desc = desc;
         this.yield = yield;
+        this.isFavorite = isLoved;
     }
 
 
@@ -51,6 +53,15 @@ public class Recipe {
         this.desc = desc;
     }
 
+
+
+    public Boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(Boolean fav) {
+        isFavorite = fav;
+    }
 
 
     public String getUri() {

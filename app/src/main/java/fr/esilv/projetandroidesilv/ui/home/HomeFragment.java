@@ -1,5 +1,6 @@
 package fr.esilv.projetandroidesilv.ui.home;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +29,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import fr.esilv.projetandroidesilv.Adapters.RecipeListAdapter;
 import fr.esilv.projetandroidesilv.R;
 import fr.esilv.projetandroidesilv.model.Recipe;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class HomeFragment extends Fragment {
 
@@ -57,8 +64,8 @@ public class HomeFragment extends Fragment {
 
 
         // load recipe
-        loadRecipe();
-
+        //loadRecipe();
+        this.loadData();
         _recipeListAdapter = new RecipeListAdapter(this.getContext(), this._recipeList);
         final RecyclerView tmpRecyclerView = root.findViewById(R.id.recipe_list_recycler_view);
         LinearLayoutManager llm = new LinearLayoutManager(root.getContext());
@@ -85,16 +92,40 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadRecipe(){
-        this._recipeList.add(new Recipe("1", "poulett", "rezar.png", "Ceci est un poulett", "4"));
-        this._recipeList.add(new Recipe("2", "chicken", "rezar.png", "Ceci est un chicken", "4"));
-        this._recipeList.add(new Recipe("1", "poulett", "rezar.png", "Ceci est un poulett", "4"));
-        this._recipeList.add(new Recipe("2", "chicken", "rezar.png", "Ceci est un chicken", "4"));
-        this._recipeList.add(new Recipe("1", "poulett", "rezar.png", "Ceci est un poulett", "4"));
-        this._recipeList.add(new Recipe("2", "chicken", "rezar.png", "Ceci est un chicken", "4"));
-        this._recipeList.add(new Recipe("1", "poulett", "rezar.png", "Ceci est un poulett", "4"));
-        this._recipeList.add(new Recipe("2", "chicken", "rezar.png", "Ceci est un chicken", "4"));
-        this._recipeList.add(new Recipe("1", "poulett", "rezar.png", "Ceci est un poulett", "4"));
-        this._recipeList.add(new Recipe("2", "chicken", "rezar.png", "Ceci est un chicken", "4"));
+        this._recipeList.add(new Recipe("1", "poulett", "rezar.png", "Ceci est un poulett", "4", false));
+        this._recipeList.add(new Recipe("2", "chicken", "rezar.png", "Ceci est un chicken", "4", false));
+        this._recipeList.add(new Recipe("3", "poulett", "rezar.png", "Ceci est un poulett", "4", false));
+        this._recipeList.add(new Recipe("4", "chicken", "rezar.png", "Ceci est un chicken", "4", false));
+        this._recipeList.add(new Recipe("5", "poulett", "rezar.png", "Ceci est un poulett", "4", false));
+        this._recipeList.add(new Recipe("6", "chicken", "rezar.png", "Ceci est un chicken", "4", false));
+        this._recipeList.add(new Recipe("7", "poulett", "rezar.png", "Ceci est un poulett", "4", false));
+        this._recipeList.add(new Recipe("8", "chicken", "rezar.png", "Ceci est un chicken", "4", false));
+        this._recipeList.add(new Recipe("9", "poulett", "rezar.png", "Ceci est un poulett", "4", false));
+        this._recipeList.add(new Recipe("10", "chicken", "rezar.png", "Ceci est un chicken", "4", false));
+        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor preferencesEditor = sharedPreferences.edit();
+        preferencesEditor.clear();
+        preferencesEditor.apply();
+        this.saveData();
+    }
+
+
+    private void saveData(){
+        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(this._recipeList);
+        editor.putString("recipe list", json);
+        editor.apply();
+    }
+
+    private void loadData(){
+        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("shared preferences", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("recipe list", null);
+        Type type = new TypeToken<ArrayList<Recipe>>(){}.getType();
+        this._recipeList = gson.fromJson(json, type);
 
     }
+
 }
