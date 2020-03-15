@@ -1,6 +1,7 @@
 package fr.esilv.projetandroidesilv.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -21,6 +22,7 @@ import java.util.Random;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import fr.esilv.projetandroidesilv.R;
+import fr.esilv.projetandroidesilv.RecipeActivity;
 import fr.esilv.projetandroidesilv.model.Recipe;
 import fr.esilv.projetandroidesilv.viewHolders.FavRecipeViewHolder;
 import fr.esilv.projetandroidesilv.viewHolders.RecipeViewHolder;
@@ -49,12 +51,20 @@ public class FavRecipeListAdapter  extends RecyclerView.Adapter<FavRecipeViewHol
     @Override
     public void onBindViewHolder(@NonNull final FavRecipeViewHolder holder, final int position) {
         final Recipe tmpRecipe = _favRecipeList.get(position);
+        holder.starNumber.setText(new DecimalFormat("##.#").format(tmpRecipe.getStar()));
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(c, RecipeActivity.class);
+                intent.putExtra("MyRecipe", tmpRecipe);
+                c.startActivity(intent);
+            }
+        });
 
         holder.toastLove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("tagg", "toastLove clicked");
                 tmpRecipe.setFavorite(!tmpRecipe.isFavorite());
                 int index = _favRecipeList.indexOf(tmpRecipe);
                 holder.isFavorite = !holder.isFavorite;

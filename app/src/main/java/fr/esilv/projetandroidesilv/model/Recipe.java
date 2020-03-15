@@ -1,12 +1,17 @@
 package fr.esilv.projetandroidesilv.model;
 
-public class Recipe {
+import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.util.Random;
+
+public class Recipe  implements Serializable {
 
     private String uri;
     private String label;
     private String imageUrl;
     private String desc;
     private String yield;
+    private Double star;
     private Boolean isFavorite = false;
 
     public Recipe(String id, String name, String imageUrl, String desc, String yield, Boolean isLoved){
@@ -16,10 +21,28 @@ public class Recipe {
         this.desc = desc;
         this.yield = yield;
         this.isFavorite = isLoved;
+        this.star = generateStar(3, 5);
     }
 
+    private Double generateStar(int min, int max){
+        Random r = new Random();
+        double random = min + r.nextDouble() * (max - min);
+        return random;
+    }
 
     // getters and setters
+
+    public String getStarFormated(){
+        return new DecimalFormat("##.#").format(this.getStar());
+    }
+
+    public Double getStar() {
+        return star;
+    }
+
+    public void setStar(Double star) {
+        this.star = star;
+    }
 
     public String getId() {
         return uri;

@@ -1,6 +1,7 @@
 package fr.esilv.projetandroidesilv.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -13,14 +14,13 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import fr.esilv.projetandroidesilv.R;
+import fr.esilv.projetandroidesilv.RecipeActivity;
 import fr.esilv.projetandroidesilv.model.Recipe;
 import fr.esilv.projetandroidesilv.viewHolders.RecipeViewHolder;
 
@@ -51,7 +51,7 @@ public class RecipeListAdapter  extends RecyclerView.Adapter<RecipeViewHolder> {
         final Recipe tmpRecipe = _recipeList.get(position);
         holder.recipeName.setText(tmpRecipe.getLabel());
         holder.yield.setText("for " + tmpRecipe.getYield() + " persons");
-        holder.starNumber.setText(new DecimalFormat("##.#").format(generateStar(3,5)));
+        holder.starNumber.setText(tmpRecipe.getStarFormated());
         Drawable myDrawable = c.getResources().getDrawable(R.drawable.demofromapi);
         holder.imageView.setImageDrawable(myDrawable);
         swapFavoriteIcon(tmpRecipe, holder);
@@ -60,6 +60,9 @@ public class RecipeListAdapter  extends RecyclerView.Adapter<RecipeViewHolder> {
             @Override
             public void onClick(View v) {
                 Log.i("tagg", "view clicked");
+                Intent intent = new Intent(c, RecipeActivity.class);
+                intent.putExtra("MyRecipe", tmpRecipe);
+                c.startActivity(intent);
             }
         });
 
@@ -88,11 +91,7 @@ public class RecipeListAdapter  extends RecyclerView.Adapter<RecipeViewHolder> {
         return this._recipeList.size();
     }
 
-    private Double generateStar(int min, int max){
-        Random r = new Random();
-        double random = min + r.nextDouble() * (max - min);
-        return random;
-    }
+
 
     public void swapFavoriteIcon(Recipe r, RecipeViewHolder holder){
         Drawable redIcon = c.getResources().getDrawable(R.drawable.ic_favorite_red_24dp);

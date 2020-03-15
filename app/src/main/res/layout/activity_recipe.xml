@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="550dp"
+        android:layout_height="550dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginBottom="28dp"
+        android:background="@drawable/background_circle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/recipeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tacos maison"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="40dp"
+        android:textSize="20dp"
+        android:focusable="false"
+        android:textColor="@color/colorPrimary"
+        android:drawablePadding="15dp"
+        android:drawableLeft="@drawable/ic_arrow_back_black_24dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/star"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:drawableRight="@drawable/ic_star_yellow_20dp"
+        android:text="4.5"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_image_recipe"
+        android:layout_width="wrap_content"
+        android:layout_height="130dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="45dp"
+        app:cardCornerRadius="@dimen/common_radius"
+        app:cardPreventCornerOverlap="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recipeLabel">
+
+        <ImageView
+            android:id="@+id/image_view_recipe"
+            android:layout_width="220dp"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/demofromapi"
+            android:background="@drawable/round_corner_menu"/>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginRight="40dp"
+        app:cardCornerRadius="@dimen/common_radius"
+        app:cardPreventCornerOverlap="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recipeLabel">
+
+        <TextView
+            android:id="@+id/text_desc_recipe"
+            android:layout_width="180dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/demofromapi"
+            android:text=" for 4 persons\n 60 minutes\n diet labels: low carbs, ...
+                            "
+            android:background="@drawable/round_corner_menu"/>
+
+    </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/toastLove"
+        style="@style/Widget.AppCompat.ActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:clickable="true"
+        android:scaleType="center"
+        android:src="@drawable/ic_favorite_border_black_48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
