@@ -119,19 +119,23 @@
             android:text="Ingredient 1 \n\n\n\n ingredient 2 \n\n\n\n inredient 3 \n\n\n\n ingredient 4"
             android:background="@drawable/round_corner_menu"/>
 
+        <ImageView
+            android:id="@+id/toastLove"
+            style="@style/Widget.AppCompat.ActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:clickable="true"
+            android:scaleType="center"
+            android:src="@drawable/ic_favorite_border_black_48dp"
+            app:layout_constraintBottom_toBottomOf="@+id/text_ingredient_recipe"
+            app:layout_constraintEnd_toEndOf="parent" />
+
     </androidx.cardview.widget.CardView>
 
-    <ImageView
-        android:id="@+id/toastLove"
-        style="@style/Widget.AppCompat.ActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:clickable="true"
-        android:scaleType="center"
-        android:src="@drawable/ic_favorite_border_black_48dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
