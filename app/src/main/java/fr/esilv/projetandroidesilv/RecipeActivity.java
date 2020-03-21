@@ -38,6 +38,7 @@ public class RecipeActivity  extends AppCompatActivity {
     private TextView recipeLabel;
     private TextView star;
     private TextView desc_recipe;
+    private TextView ingredient_recipe;
     private ImageView favorite;
     private ImageView image_view_recipe;
     private LinearLayoutManager hlm = null; // for health label
@@ -58,6 +59,7 @@ public class RecipeActivity  extends AppCompatActivity {
         setContentView(R.layout.activity_recipe);
         recipeLabel = (TextView) findViewById(R.id.recipeLabel);
         desc_recipe = (TextView) findViewById(R.id.text_desc_recipe);
+        ingredient_recipe = (TextView) findViewById(R.id.text_ingredient_recipe);
         star = (TextView) findViewById(R.id.star);
         favorite = (ImageView) findViewById(R.id.toastLove);
         image_view_recipe = (ImageView) findViewById(R.id.image_view_recipe);
@@ -100,6 +102,7 @@ public class RecipeActivity  extends AppCompatActivity {
         String desc = "for " + recipe.getYield() + " persons\n" +
                 recipe.getTotalTime() + "\n";
         desc_recipe.setText(desc);
+        ingredient_recipe.setText(TextUtils.join("\n\n\n", recipe.getIngredientLines()));
         star.setText(recipe.getStarFormated());
 
         recipeLabel.setOnClickListener(new View.OnClickListener() {

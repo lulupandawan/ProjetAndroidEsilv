@@ -16,6 +16,7 @@ public class Recipe  implements Serializable {
 
     @SerializedName("image")
     private String imageUrl;
+    private ArrayList<String> ingredientLines;
     private ArrayList<String> dietLabels;
     private ArrayList<String> healthLabels;
     private ArrayList<String> allLabels = null;
@@ -154,4 +155,13 @@ public class Recipe  implements Serializable {
         }
         return allLabelsObj;
     }
+
+    public ArrayList<String> getIngredientLines() {
+        return ingredientLines;
+    }
+
+    public void setIngredientLines(ArrayList<String> ingredientLines) {
+        this.ingredientLines = ingredientLines;
+    }
+
 }
