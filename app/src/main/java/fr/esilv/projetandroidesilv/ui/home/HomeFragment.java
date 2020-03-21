@@ -11,6 +11,7 @@ import android.view.animation.LayoutAnimationController;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,12 +54,14 @@ public class HomeFragment extends Fragment {
     private static final String APP_ID = "d8d49529";
     private static final String APP_KEY = "e611a21486cca33b2bc4bd68766a1dad";
     private Integer from = 0;
-    private Integer to = 3;
+    private Integer to = 5;
+    private Integer pas = 5;
     private RecipeService service;
     private String action = "none";
 
     private Button load_more;
     private Button search_btn;
+    private ProgressBar spinner;
     private EditText search_bar;
     private RecipeListAdapter _recipeListAdapter ;
     private ArrayList<Recipe> _recipeList = new ArrayList<>(); // contains all recipes without filter
@@ -79,8 +82,8 @@ public class HomeFragment extends Fragment {
         load_more.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.i("load more", "load more");
-                from += 3;
-                to += 3;
+                from += pas;
+                to += pas;
                 action = "load_more";
                 String q = search_bar.getText().toString();
                 if(!q.equals(""))
@@ -107,6 +110,9 @@ public class HomeFragment extends Fragment {
 
         // load all labels from the API
         load_health_Label();
+
+
+        spinner = (ProgressBar) root.findViewById(R.id.spinner);
 
         // load 2 adapters
         _recipeListAdapter = new RecipeListAdapter(this.getContext(), this._recipeListFiltered);
@@ -182,6 +188,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void launchSearch(String query) {
+        spinner.setVisibility(View.VISIBLE);
         service.search(query, APP_KEY, APP_ID, from, to).enqueue(new Callback<RecipeSearchResponse>() {
             @Override
             public void onResponse(@NonNull Call<RecipeSearchResponse> call, @NonNull Response<RecipeSearchResponse> response) {
@@ -215,6 +222,7 @@ public class HomeFragment extends Fragment {
                     }
                     else Toast.makeText(getContext(), "No recipe found", Toast.LENGTH_SHORT).show();
 
+                    spinner.setVisibility(View.INVISIBLE);
                     action = "";
                     if(llm.findLastVisibleItemPosition() == _recipeListFiltered.size()-1 && _recipeListFiltered.size() > 0){
                         load_more.setVisibility(View.VISIBLE);
