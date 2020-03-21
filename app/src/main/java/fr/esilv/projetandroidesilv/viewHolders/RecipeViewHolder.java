@@ -16,12 +16,14 @@ public class RecipeViewHolder  extends  RecyclerView.ViewHolder{
     public TextView yield;
     public TextView starNumber;
     public Boolean isFavorite = false;
+    public TextView totalTime;
 
     public RecipeViewHolder(@NonNull View itemView) {
         super(itemView);
         recipeName = (TextView) itemView.findViewById(R.id.text_view_recipe_name);
         yield = (TextView) itemView.findViewById(R.id.yield);
         starNumber = (TextView) itemView.findViewById(R.id.star);
+        totalTime = (TextView) itemView.findViewById(R.id.totalTime);
         imageView = (ImageView) itemView.findViewById(R.id.image_view_recipe);
         toastLove = (ImageView) itemView.findViewById(R.id.toastLove);
 

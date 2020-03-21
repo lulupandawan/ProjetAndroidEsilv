@@ -10,15 +10,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import es.dmoral.toasty.Toasty;
 import fr.esilv.projetandroidesilv.R;
 import fr.esilv.projetandroidesilv.RecipeActivity;
 import fr.esilv.projetandroidesilv.model.Recipe;
@@ -51,9 +54,9 @@ public class RecipeListAdapter  extends RecyclerView.Adapter<RecipeViewHolder> {
         final Recipe tmpRecipe = _recipeList.get(position);
         holder.recipeName.setText(tmpRecipe.getLabel());
         holder.yield.setText("for " + tmpRecipe.getYield() + " persons");
+        holder.totalTime.setText(tmpRecipe.getTotalTime());
         holder.starNumber.setText(tmpRecipe.getStarFormated());
-        Drawable myDrawable = c.getResources().getDrawable(R.drawable.demofromapi);
-        holder.imageView.setImageDrawable(myDrawable);
+        Glide.with(this.c).load(tmpRecipe.getImageUrl()).into(holder.imageView);
         swapFavoriteIcon(tmpRecipe, holder);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -75,11 +78,11 @@ public class RecipeListAdapter  extends RecyclerView.Adapter<RecipeViewHolder> {
                 holder.isFavorite = !holder.isFavorite;
                 if(holder.isFavorite){
                     addRecetteAsFavorite(tmpRecipe);
-                    Toast.makeText(c, "Recipe " + tmpRecipe.getLabel() + " added to favorite", Toast.LENGTH_SHORT).show();
+                    Toasty.success(c, "Recipe " + tmpRecipe.getLabel() + " added to favorite", Toast.LENGTH_LONG, true).show();
                 }
                 else{
                     deleteRecipeFromFavorite(tmpRecipe);
-                    Toast.makeText(c, "Recipe " + tmpRecipe.getLabel() + " remove from favorite", Toast.LENGTH_SHORT).show();
+                    Toasty.info(c, "Recipe " + tmpRecipe.getLabel() + " removed from favorite", Toast.LENGTH_LONG, true).show();
                 }
             }
         });
@@ -120,15 +123,15 @@ public class RecipeListAdapter  extends RecyclerView.Adapter<RecipeViewHolder> {
         Type type = new TypeToken<ArrayList<Recipe>>(){}.getType();
         this._favoriteRecipe = gson.fromJson(json, type);
 
-        Log.i("deleteasfavoriterecipe", "remove R id -> " + r.getId());
+        Log.i("deleteasfavoriterecipe", "remove R id -> " + r.getUri());
 
         for(int i = 0 ; i < this._favoriteRecipe.size(); i++){
             Recipe rec = this._favoriteRecipe.get(i);
 
-            Log.i("deleteasfavoriterecipe", "remove REC id -> " + rec.getId());
+            Log.i("deleteasfavoriterecipe", "remove REC id -> " + rec.getUri());
 
-            if (rec.getId().equals(r.getId())){
-                Log.i("deleteasfavoriterecipe", "remove recipe id -> " + rec.getId());
+            if (rec.getUri().equals(r.getUri())){
+                Log.i("deleteasfavoriterecipe", "remove recipe id -> " + rec.getUri());
                 this._favoriteRecipe.remove(rec);
                 Log.i("deleteasfavoriterecipe", "delete recipe in my favorite recipe into shared preferences");
                 break;
@@ -146,6 +149,17 @@ public class RecipeListAdapter  extends RecyclerView.Adapter<RecipeViewHolder> {
         editor.apply();
         Log.i("savefavoriterecipe", "save my favorite recipe into sharedpreferences");
         Log.i("saveasfavoriterecipe", Integer.toString(this._favoriteRecipe.size()));
+    }
+
+    public void setRecipeList(ArrayList<Recipe> r){
+        this._recipeList = r;
+        notifyDataSetChanged();
+    }
+
+    public void addAll(ArrayList<Recipe> newList) {
+        int lastIndex = _recipeList.size();
+        _recipeList.addAll(newList);
+        notifyItemRangeInserted(lastIndex, newList.size());
     }
 
 }

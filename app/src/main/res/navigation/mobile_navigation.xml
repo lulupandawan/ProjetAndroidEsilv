@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/navigation_receipe"
         android:name="fr.esilv.projetandroidesilv.ui.home.HomeFragment"
-        android:label="@string/title_receipe"
+        android:label="@string/title_recipe"
         tools:layout="@layout/fragment_home" />
 
     <fragment

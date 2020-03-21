@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -22,6 +24,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import es.dmoral.toasty.Toasty;
+import fr.esilv.projetandroidesilv.Adapters.HealthLabelAdapter;
+import fr.esilv.projetandroidesilv.model.HealthLabel;
 import fr.esilv.projetandroidesilv.model.Recipe;
 import fr.esilv.projetandroidesilv.viewHolders.RecipeViewHolder;
 
@@ -29,7 +37,11 @@ public class RecipeActivity  extends AppCompatActivity {
 
     private TextView recipeLabel;
     private TextView star;
+    private TextView desc_recipe;
     private ImageView favorite;
+    private ImageView image_view_recipe;
+    private LinearLayoutManager hlm = null; // for health label
+    private HealthLabelAdapter _healthLabelListAdapter ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +57,26 @@ public class RecipeActivity  extends AppCompatActivity {
 
         setContentView(R.layout.activity_recipe);
         recipeLabel = (TextView) findViewById(R.id.recipeLabel);
+        desc_recipe = (TextView) findViewById(R.id.text_desc_recipe);
         star = (TextView) findViewById(R.id.star);
         favorite = (ImageView) findViewById(R.id.toastLove);
+        image_view_recipe = (ImageView) findViewById(R.id.image_view_recipe);
 
+        // find recycler view
+        final RecyclerView tmpHealthlabelRecyclerView = findViewById(R.id.health_label_rv_activity_recipe);
+
+        hlm = new LinearLayoutManager(
+                getApplicationContext(),
+                LinearLayoutManager.HORIZONTAL,
+                false);
+
+        // set animation and adapter for recipe recycler view
+        _healthLabelListAdapter = new HealthLabelAdapter(getApplicationContext(), recipe.getAllLabelsObj());
+        tmpHealthlabelRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        tmpHealthlabelRecyclerView.setLayoutManager(hlm);
+        tmpHealthlabelRecyclerView.setAdapter(_healthLabelListAdapter);
+
+        Glide.with(getApplicationContext()).load(recipe.getImageUrl()).into(image_view_recipe);
         favorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,11 +84,11 @@ public class RecipeActivity  extends AppCompatActivity {
                 swapFavoriteIcon(recipe);
                 if(recipe.isFavorite()){
                     addRecetteAsFavorite(recipe);
-                    Toast.makeText(getApplicationContext(), "Recipe " + recipe.getLabel() + " added to favorite", Toast.LENGTH_SHORT).show();
+                    Toasty.success(getApplicationContext(), "Recipe " + recipe.getLabel() + " added to favorite", Toast.LENGTH_LONG, true).show();
                 }
                 else{
                     deleteRecipeFromFavorite(recipe);
-                    Toast.makeText(getApplicationContext(), "Recipe " + recipe.getLabel() + " remove from favorite", Toast.LENGTH_SHORT).show();
+                    Toasty.info(getApplicationContext(), "Recipe " + recipe.getLabel() + " removed from favorite", Toast.LENGTH_LONG, true).show();
                 }
             }
         });
@@ -67,6 +96,10 @@ public class RecipeActivity  extends AppCompatActivity {
         swapFavoriteIcon(recipe);
 
         recipeLabel.setText(recipe.getLabel());
+        recipeLabel.setText(recipe.getLabel());
+        String desc = "for " + recipe.getYield() + " persons\n" +
+                recipe.getTotalTime() + "\n";
+        desc_recipe.setText(desc);
         star.setText(recipe.getStarFormated());
 
         recipeLabel.setOnClickListener(new View.OnClickListener() {
@@ -106,15 +139,15 @@ public class RecipeActivity  extends AppCompatActivity {
         Type type = new TypeToken<ArrayList<Recipe>>(){}.getType();
         recipeList = gson.fromJson(json, type);
 
-        Log.i("deleteasfavoriterecipe", "remove R id -> " + r.getId());
+        Log.i("deleteasfavoriterecipe", "remove R id -> " + r.getUri());
 
         for(int i = 0 ; i < recipeList.size(); i++){
             Recipe rec = recipeList.get(i);
 
-            Log.i("deleteasfavoriterecipe", "remove REC id -> " + rec.getId());
+            Log.i("deleteasfavoriterecipe", "remove REC id -> " + rec.getUri());
 
-            if (rec.getId().equals(r.getId())){
-                Log.i("deleteasfavoriterecipe", "remove recipe id -> " + rec.getId());
+            if (rec.getUri().equals(r.getUri())){
+                Log.i("deleteasfavoriterecipe", "remove recipe id -> " + rec.getUri());
                 recipeList.remove(rec);
                 Log.i("deleteasfavoriterecipe", "delete recipe in my favorite recipe into shared preferences");
                 break;

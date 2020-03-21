@@ -27,12 +27,15 @@
             android:id="@+id/text_view_recipe_name"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
+            android:maxWidth="130dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:paddingStart="10dp"
             android:paddingTop="3dp"
             android:paddingEnd="10dp"
             android:paddingBottom="3dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="Recipe Name"
             android:textAlignment="center"
             android:textAllCaps="true"
@@ -52,6 +55,16 @@
             android:layout_marginTop="5dp"
             app:layout_constraintStart_toStartOf="@id/text_view_recipe_name"
             app:layout_constraintTop_toBottomOf="@id/text_view_recipe_name"/>
+
+        <TextView
+            android:id="@+id/totalTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20 minutes"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="@id/text_view_recipe_name"
+            app:layout_constraintTop_toBottomOf="@id/yield"/>
 
         <TextView
             android:id="@+id/star"

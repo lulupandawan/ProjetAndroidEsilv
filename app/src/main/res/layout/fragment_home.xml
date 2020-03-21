@@ -4,6 +4,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <EditText
+        android:id="@+id/search_bar"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="12dp"
+        android:background="@drawable/round_corner_white"
+        android:elevation="5dp"
+        android:ems="10"
+        android:hint="Search a recipe"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:singleLine="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <Button
+        android:id="@+id/search_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="8dp"
+        android:paddingTop="0dp"
+        android:background="@drawable/btn_bg_round_circle_search"
+        android:textColor="@color/white"
+        android:text="Search"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:drawableEnd="@drawable/ic_search_white_24dp"
+        app:layout_constraintStart_toEndOf="@+id/search_bar"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <!--Recycler View widget-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/health_label_recycler_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_bar" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recipe_list_recycler_view"
@@ -11,10 +53,11 @@
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layoutAnimation="@anim/layout_animation_fall_down"
         android:layout_marginBottom="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/health_label_recycler_view">
 
 
     </androidx.recyclerview.widget.RecyclerView>
@@ -25,11 +68,15 @@
         android:paddingHorizontal="10dp"
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="700dp"
+        android:layout_marginTop="590dp"
         android:visibility="invisible"
-        android:drawableRight="@drawable/ic_autorenew_black_24dp"
+        android:drawableRight="@drawable/ic_autorenew_white_24dp"
         android:background="@drawable/btn_bg_rounded_corner"
         android:text="Load more"
+        android:textColor="@color/white"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.464"
         app:layout_constraintStart_toStartOf="parent"

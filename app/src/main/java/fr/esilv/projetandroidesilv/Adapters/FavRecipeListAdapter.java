@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -21,6 +22,7 @@ import java.util.Random;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import es.dmoral.toasty.Toasty;
 import fr.esilv.projetandroidesilv.R;
 import fr.esilv.projetandroidesilv.RecipeActivity;
 import fr.esilv.projetandroidesilv.model.Recipe;
@@ -52,6 +54,7 @@ public class FavRecipeListAdapter  extends RecyclerView.Adapter<FavRecipeViewHol
     public void onBindViewHolder(@NonNull final FavRecipeViewHolder holder, final int position) {
         final Recipe tmpRecipe = _favRecipeList.get(position);
         holder.starNumber.setText(new DecimalFormat("##.#").format(tmpRecipe.getStar()));
+        Glide.with(this.c).load(tmpRecipe.getImageUrl()).into(holder.imageView);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,8 +71,8 @@ public class FavRecipeListAdapter  extends RecyclerView.Adapter<FavRecipeViewHol
                 tmpRecipe.setFavorite(!tmpRecipe.isFavorite());
                 int index = _favRecipeList.indexOf(tmpRecipe);
                 holder.isFavorite = !holder.isFavorite;
-                    deleteRecipeFromFavorite(tmpRecipe);
-                    Toast.makeText(c, "Recipe " + tmpRecipe.getLabel() + " remove from favorite", Toast.LENGTH_SHORT).show();
+                deleteRecipeFromFavorite(tmpRecipe);
+                Toasty.info(c, "Recipe " + tmpRecipe.getLabel() + " remove from favorite", Toast.LENGTH_LONG, true).show();
                     notifyItemRemoved(index);
             }
         });
@@ -94,18 +97,17 @@ public class FavRecipeListAdapter  extends RecyclerView.Adapter<FavRecipeViewHol
         Type type = new TypeToken<ArrayList<Recipe>>(){}.getType();
         this._favRecipeList = gson.fromJson(json, type);
 
-        Log.i("deleteasfavoriterecipe", "remove R id -> " + r.getId());
+        Log.i("deleteasfavoriterecipe", "remove R id -> " + r.getUri());
 
         for(int i = 0 ; i < this._favRecipeList.size(); i++){
             Recipe rec = this._favRecipeList.get(i);
 
-            Log.i("deleteasfavoriterecipe", "remove REC id -> " + rec.getId());
+            Log.i("deleteasfavoriterecipe", "remove REC id -> " + rec.getUri());
 
-            if (rec.getId().equals(r.getId())){
-                Log.i("deleteasfavoriterecipe", "remove recipe id -> " + rec.getId());
+            if (rec.getUri().equals(r.getUri())){
+                Log.i("deleteasfavoriterecipe", "remove recipe id -> " + rec.getUri());
                 this._favRecipeList.remove(rec);
                 Log.i("deleteasfavoriterecipe", "delete recipe in my favorite recipe into shared preferences");
-                break;
             }
         }
         saveFavoriteRecipe();

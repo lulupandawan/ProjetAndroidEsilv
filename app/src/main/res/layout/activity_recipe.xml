@@ -58,16 +58,16 @@
             android:layout_width="220dp"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/demofromapi"
             android:background="@drawable/round_corner_menu"/>
 
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/card_desc_recipe"
         android:layout_width="wrap_content"
-        android:layout_height="80dp"
+        android:layout_height="60dp"
         android:layout_marginTop="100dp"
-        android:layout_marginRight="40dp"
+        android:layout_marginRight="90dp"
         app:cardCornerRadius="@dimen/common_radius"
         app:cardPreventCornerOverlap="true"
         app:layout_constraintEnd_toEndOf="parent"
@@ -75,14 +75,48 @@
 
         <TextView
             android:id="@+id/text_desc_recipe"
-            android:layout_width="180dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:text=" for 4 persons\n 60 minutes\n diet labels: low carbs, ...
+                            "
+            android:background="@drawable/round_corner_menu"/>
+
+    </androidx.cardview.widget.CardView>
+
+    <!--Recycler View widget-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/health_label_rv_activity_recipe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_desc_recipe" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_ingredient_recipe"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        app:cardCornerRadius="@dimen/common_radius"
+        app:cardPreventCornerOverlap="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/health_label_rv_activity_recipe">
+
+        <TextView
+            android:id="@+id/text_ingredient_recipe"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/demofromapi"
-            android:text=" for 4 persons\n 60 minutes\n diet labels: low carbs, ...
-                            "
+            android:text="Ingredient 1 \n\n\n\n ingredient 2 \n\n\n\n inredient 3 \n\n\n\n ingredient 4"
             android:background="@drawable/round_corner_menu"/>
 
     </androidx.cardview.widget.CardView>
